@@ -19,6 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($post["Password"])) {
         $error["Password"] = "Password is required";
     } 
+    if (empty($post["user"])&& empty($post["admin"])) {
+        $error["user"] = "Role is required";
+    }    
     if (empty($post["TrueOrFalse"])) {
         $error["TrueOrFalse"] = "Required field";
     }
@@ -41,11 +44,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error["shipping"] = "Function is required";
     }                                                
     if (count($error) === 0){
+    
+        $DateAndTime = date("Y-m-d H:i:s");
+
         include 'dbconfig.php';
+    
+        /*  get the last row of customers */
+        $stmt = $pdo -> prepare("SELECT MAX(CustomerId) FROM customers");
+        $stmt -> execute();  
+
+        $result= $stmt->fetch(PDO::FETCH_OBJ);
+        foreach($result as $key => $value){
+            $CustomerId = $value;
+        }
+        $CustomerId ++;
+
+        
+     
+    /*  Insert new row to users */
+        $sql = "INSERT INTO users (Email, Password,DateAndTime,TrueOrFalse)
+        VALUES(:Email, :Password, :DateAndTime, :TrueOrFalse)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['Email' => $post["Email"], 'Password' => $post["Password"], 'DateAndTime' => $DateAndTime, 'TrueOrFalse' => $post["TrueOrFalse"]]);
+    
+    /*  Insert new rows to user_roles */
+        $sql = "INSERT INTO users_roles (UserId, RoleId)
+        VALUES(:UserId, :RoleId)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['UserId' => $UserId, 'RoleId' => $RoleId]);
+    
+    /*  Insert new row to customers */
         $sql = "INSERT INTO customers (CustomerId, CompanyName,FirstName,LastName,Phone, Adresse, PostalCode,City,Country)
         VALUES(:CustomerId, :CompanyName, :FirstName, :LastName, :Phone, :Adresse, :PostalCode, :City, :Country)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['CustomerId' => $post["CustomerId"], 'CompanyName' => $post["CompanyName"], 'FirstName' => $post["FirstName"], 'LastName' => $post["LastName"], 'Phone' => $post["Phone"], 'Adresse' => $post["Adresse"], 'PostalCode' => $post["PostalCode"], 'City' => $post["City"], 'Country' => $post["Country"]]);
+        $stmt->execute(['CustomerId' => $CustomerId, 'CompanyName' => $post["CompanyName"], 'FirstName' => $post["FirstName"], 'LastName' => $post["LastName"], 'Phone' => $post["Phone"], 'Adresse' => $post["Adresse"], 'PostalCode' => $post["PostalCode"], 'City' => $post["City"], 'Country' => $post["Country"]]);
+    
+    
         header('Location: /display.php'); 
         exit();
     }    
@@ -87,8 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p>
         <label for="Password">Password:</label>
         <input type="password" id="Password" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>">
-        <span class="error">* <?php echo $error['TrueOrFalse'];?></span>
+        <span class="error">* <?php echo $error['Password'];?></span>
         <br><br>
+    </p>
+    <p>
+        <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
+        <label for="user"> USER</label><br>
+        <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
+        <label for="admin"> ADMIN</label><br>
+        <span class="error">* <?php echo $error['user'];?></span>
     </p>	
     <p>
         <input type="radio" id="true" name="TrueOrFalse"  <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="true") echo "checked";?> value="true">
