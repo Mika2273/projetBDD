@@ -1,3 +1,45 @@
 .error{
     color:red;
 }
+.container{
+    width: 80%;
+    margin: auto;
+}
+.flex{
+    display:flex;
+    flex-wrap:wrap;
+    font-size: 1.5rem;
+}
+.flex-child{
+    flex: auto;
+    width: 33%;
+}
+.flex-child-columnS{
+    flex: auto;
+    width: 20%;
+
+}
+a{
+    color: white;
+    background-color: #2196F3;
+    text-decoration: none;
+    width: 10vw;
+    padding: 0.3rem;
+    font-size: 1rem;
+    border: 1px solid grey;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+a:hover{
+    background-color: #0b7dda;
+}
+.button{
+    width: 10vw;
+    padding: 0.3rem;
+    background: #2196F3;
+    color: white;
+    font-size: 1rem;
+    border: 1px solid grey;
+    cursor: pointer;
+}

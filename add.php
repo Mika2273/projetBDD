@@ -152,90 +152,107 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/add.css">
 </head>
 <body>
-
+<div class="container">
 <form method="POST">
-	<a href="display.php">Back</a>
-	<p>
-        <label for="FirstName">First Name:</label>
+	
+    <div class="flex">
+	<p class="flex-child">
+        <label for="FirstName">* First Name:</label>
         <input type="text" id="FirstName" name="FirstName" value="<?php echo htmlspecialchars($post['FirstName']); ?>">
-        <span class="error">* <?php echo $FirstNameErr;?></span>
+        <span class="error"><?php echo $FirstNameErr;?></span>
         <br><br>
 	</p>
-	<p>
-        <label for="LastName">Last Name:</label>
+	<p class="flex-child">
+        <label for="LastName">* Last Name:</label>
         <input type="text" id="LastName" name="LastName" value="<?php echo htmlspecialchars($post['LastName']); ?>">
-        <span class="error">* <?php echo $error['LastName'];?></span>
+        <span class="error"><?php echo $error['LastName'];?></span>
         <br><br>
 	</p>
-	<p>
+	<p class="flex-child">
         <label for="CompanyName">Company Name:</label>
         <input type="text" id="CompanyName" name="CompanyName" value="<?php echo htmlspecialchars($post['CompanyName']); ?>"> 
 	</p>
-	<p>
-        <label for="Email">Email:</label>
+    </div>
+    <div class="flex">
+	<p class="flex-child">
+        <label for="Email">* Email:</label>
         <input type="text" id="Email" name="Email" value="<?php echo htmlspecialchars($post['Email']); ?>">
-        <span class="error">* <?php echo $error['Email'];?></span>
+        <span class="error"><?php echo $error['Email'];?></span>
         <br><br>
 	</p>
-    <p>
-        <label for="Password">Password:</label>
+    <p class="flex-child">
+        <label for="Password">* Password:</label>
         <input type="password" id="Password" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>">
-        <span class="error">* <?php echo $error['Password'];?></span>
+        <span class="error"><?php echo $error['Password'];?></span>
         <br><br>
     </p>
-    <p>
-        <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
-        <label for="user"> USER</label><br>
-        <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
-        <label for="admin"> ADMIN</label><br>
-        <span class="error">* <?php echo $error['user'];?></span>
-    </p>	
-    <p>
+    <p class="flex-child">
+        <label for="Phone">* Phone:</label>
+        <input type="text" id="Phone" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>">
+        <span class="error"><?php echo $error['Phone'];?></span>
+        <br><br>
+	</p>
+    </div>
+	<div class="flex">
+    <p class="flex-child">
+        <label for="Adresse">* Adresse:</label>
+        <input type="text" id="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>">
+        <span class="error"><?php echo $error['Adresse'];?></span>
+        <br><br>
+	</p>
+    <p class="flex-child">
+        <label for="PostalCode">* Postal Code:</label>
+        <input type="text" id="PostalCode" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>">
+        <span class="error"><?php echo $error['PostalCode'];?></span>
+        <br><br>
+    </p>
+    <p class="flex-child">
+        <label for="City">* City:</label>
+        <input type="text" id="City" name="City" value="<?php echo htmlspecialchars($post['City']); ?>">
+        <span class="error"><?php echo $error['City'];?></span>
+        <br><br>
+    </p>
+    </div>
+    <div class="flex">
+    <p class="flex-child">
+        <label for="Country">* Country:</label>
+        <input type="text" id="Country" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>">
+        <span class="error"><?php echo $error['Country'];?></span>
+        <br><br>
+    </p>
+    </div>
+    <div class="flex">
+    <p class="flex-child-columnS">
+        <span>*</span>
         <input type="radio" id="true" name="TrueOrFalse"  <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="true") echo "checked";?> value="true">
-        <label for="true">True</label><br>
+        <label for="true">True</label>
         <input type="radio" id="false" name="TrueOrFalse" <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="false") echo "checked";?> value="false">
 	    <label for="false">False</label><br>
-        <span class="error">* <?php echo $error['TrueOrFalse'];?></span>
+        <span class="error"><?php echo $error['TrueOrFalse'];?></span>
   <br><br>
     </p>	
-    <p>
-        <label for="Phone">Phone:</label>
-        <input type="text" id="Phone" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>">
-        <span class="error">* <?php echo $error['Phone'];?></span>
-        <br><br>
-	</p>
-    <p>
-        <label for="Adresse">Adresse:</label>
-        <input type="text" id="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>">
-        <span class="error">* <?php echo $error['Adresse'];?></span>
-        <br><br>
-	</p>
-    <p>
-        <label for="PostalCode">Postal Code:</label>
-        <input type="text" id="PostalCode" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>">
-        <span class="error">* <?php echo $error['PostalCode'];?></span>
-        <br><br>
+    <p class="flex-child-columnS">
+        <span>*</span>
+        <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
+        <label for="user">USER</label>
+        <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
+        <label for="admin"> ADMIN</label><br>
+        <span class="error"><?php echo $error['user'];?></span>
     </p>
-    <p>
-        <label for="City">City:</label>
-        <input type="text" id="City" name="City" value="<?php echo htmlspecialchars($post['City']); ?>">
-        <span class="error">* <?php echo $error['City'];?></span>
-        <br><br>
-    </p>
-    <p>
-        <label for="Country">Country:</label>
-        <input type="text" id="Country" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>">
-        <span class="error">* <?php echo $error['Country'];?></span>
-        <br><br>
-    </p>
-    <p>
+
+    
+    <p class="flex-child-columnS">
+        <span>*</span>
         <input type="checkbox" id="shipping" name="shipping"  <?php if (isset($post['shipping']) && $post['shipping']=="yes") echo "checked";?>  value="yes">
-        <label for="shipping"> shipping</label><br>
+        <label for="shipping"> shipping</label>
         <input type="checkbox" id="billing" name="billing" <?php if (isset($post['billing']) && $post['billing']=="yes") echo "checked";?>  value="yes">
         <label for="billing"> billing</label><br>
-        <span class="error">* <?php echo $error['shipping'];?></span>
+        <span class="error"><?php echo $error['shipping'];?></span>
     </p>
-    <input type="submit" name="submit" value="Save">
+    </div>
+    <input class="button" type="submit" name="submit" value="Save">
+    <a href="display.php">Back</a>
 </form>
+</div>
 </body>
 </html>
