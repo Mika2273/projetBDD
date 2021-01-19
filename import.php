@@ -9,17 +9,10 @@ $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 $spreadsheet = $reader->load("database-3.xlsx");
 $sheet = $spreadsheet->getSheetByName('Clients'); 
 
-try{
-    $pdo = new PDO('sqlite:projetBDD.db');
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
-} catch(Exception $e) {
-    echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
-    die();
-}
+include 'dbconfig.php';
 
-$user = array(":Id", ":Email", ":Password",":DateAndTime",":TrueOrFalse");
-$user_role = array("UserId", "RoleId");
+$user = [":Id", ":Email", ":Password",":DateAndTime",":TrueOrFalse"];
+$user_role = ["UserId", "RoleId"];
 
 foreach ($sheet->getRowIterator() as $row) {
     $userIndex =0;
@@ -68,9 +61,9 @@ foreach ($sheet->getRowIterator() as $row) {
 }
 
 $sheet = $spreadsheet->getSheetByName('Adresses'); 
-$customers = array(":CustomerId", ":CompanyName", ":FirstName", ":LastName", ":Phone", "Adresse", "PostalCode", "City", "Country");
-$storage = array("CompanyName", "FirstName", "LastName", "Phone", "Adress", "PostalCode", "City", "Country");
-$storageNext = array("CompanyName", "FirstName", "LastName", "Phone", "Adress", "PostalCode", "City", "Country");
+$customers = [":CustomerId", ":CompanyName", ":FirstName", ":LastName", ":Phone", "Adresse", "PostalCode", "City", "Country"];
+$storage = ["CompanyName", "FirstName", "LastName", "Phone", "Adress", "PostalCode", "City", "Country"];
+$storageNext = ["CompanyName", "FirstName", "LastName", "Phone", "Adress", "PostalCode", "City", "Country"];
 $AdresseId = 0;
 
 foreach ($sheet->getRowIterator() as $row) {

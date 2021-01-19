@@ -45,11 +45,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }                                                
     if (count($error) === 0){
     
-        $DateAndTime = date("Y-m-d H:i:s");
-
         include 'dbconfig.php';
     
-        /*  get the last row of customers */
+    /*  Insert new row to users */
+        $sql = "INSERT INTO users (Email, Password,DateAndTime,TrueOrFalse)
+                VALUES(:Email, :Password, :DateAndTime, :TrueOrFalse)";
+        $stmt = $pdo->prepare($sql);
+        $DateAndTime = date("Y-m-d H:i:s");
+        $stmt->execute(['Email' => $post["Email"], 'Password' => $post["Password"], 'DateAndTime' => $DateAndTime, 'TrueOrFalse' => $post["TrueOrFalse"]]);
+        
+    /*  Insert new row to user_roles */
+        if (isset($post['user']) && $post['user']=="yes"){
+
+            $stmt = $pdo -> prepare("SELECT MAX(Id) FROM users");
+            $stmt -> execute();  
+    
+            $result= $stmt->fetch(PDO::FETCH_OBJ);
+            foreach($result as $key => $value){
+                $UserId = $value;
+            }
+
+            $sql = "INSERT INTO user_roles (UserId, RoleId)
+            VALUES(:UserId, :RoleId)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['UserId' => $UserId, 'RoleId' => 1]);
+
+        }
+
+        if (isset($post['admin']) && $post['admin']=="yes"){
+
+            $stmt = $pdo -> prepare("SELECT MAX(Id) FROM users");
+            $stmt -> execute();  
+    
+            $result= $stmt->fetch(PDO::FETCH_OBJ);
+            foreach($result as $key => $value){
+                $UserId = $value;
+            }
+
+            $sql = "INSERT INTO user_roles (UserId, RoleId)
+            VALUES(:UserId, :RoleId)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['UserId' => $UserId, 'RoleId' => 2]);
+
+        }
+    
+    
+    /*  Insert new row to customers */
         $stmt = $pdo -> prepare("SELECT MAX(CustomerId) FROM customers");
         $stmt -> execute();  
 
@@ -58,27 +99,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $CustomerId = $value;
         }
         $CustomerId ++;
-
-        
-     
-    /*  Insert new row to users */
-        $sql = "INSERT INTO users (Email, Password,DateAndTime,TrueOrFalse)
-        VALUES(:Email, :Password, :DateAndTime, :TrueOrFalse)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['Email' => $post["Email"], 'Password' => $post["Password"], 'DateAndTime' => $DateAndTime, 'TrueOrFalse' => $post["TrueOrFalse"]]);
     
-    /*  Insert new rows to user_roles */
-        $sql = "INSERT INTO users_roles (UserId, RoleId)
-        VALUES(:UserId, :RoleId)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['UserId' => $UserId, 'RoleId' => $RoleId]);
-    
-    /*  Insert new row to customers */
         $sql = "INSERT INTO customers (CustomerId, CompanyName,FirstName,LastName,Phone, Adresse, PostalCode,City,Country)
         VALUES(:CustomerId, :CompanyName, :FirstName, :LastName, :Phone, :Adresse, :PostalCode, :City, :Country)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['CustomerId' => $CustomerId, 'CompanyName' => $post["CompanyName"], 'FirstName' => $post["FirstName"], 'LastName' => $post["LastName"], 'Phone' => $post["Phone"], 'Adresse' => $post["Adresse"], 'PostalCode' => $post["PostalCode"], 'City' => $post["City"], 'Country' => $post["Country"]]);
     
+    /*  Insert new row to customer_functions */
+        if (isset($post['shipping']) && $post['shipping']=="yes"){
+
+            $stmt = $pdo -> prepare("SELECT MAX(Id) FROM customers");
+            $stmt -> execute();  
+    
+            $result= $stmt->fetch(PDO::FETCH_OBJ);
+            foreach($result as $key => $value){
+                $AdresseId = $value;
+            }
+
+            $sql = "INSERT INTO customer_functions(AdresseId, FunctionId)
+            VALUES(:AdresseId, :FunctionId)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['AdresseId' => $AdresseId, 'FunctionId' => 1]);
+
+        }
+
+        if (isset($post['billing']) && $post['billing']=="yes"){
+
+            $stmt = $pdo -> prepare("SELECT MAX(Id) FROM customers");
+            $stmt -> execute();  
+    
+            $result= $stmt->fetch(PDO::FETCH_OBJ);
+            foreach($result as $key => $value){
+                $AdresseId = $value;
+            }
+
+            $sql = "INSERT INTO customer_functions(AdresseId, FunctionId)
+            VALUES(:AdresseId, :FunctionId)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['AdresseId' => $AdresseId, 'FunctionId' => 2]);
+        } 
     
         header('Location: /display.php'); 
         exit();
