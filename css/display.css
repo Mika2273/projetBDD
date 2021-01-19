@@ -1,0 +1,101 @@
+*{
+    box-sizing: border-box;
+}
+  
+/* Style the search field */  
+form.search input[type=text] {
+    padding: 0.3rem;
+    font-size: 1rem;
+    border: 1px solid grey;
+    float: left;
+    width: 15vw;
+    background: #f1f1f1;
+}
+  
+/* Style the submit button */
+button{
+    float: left;
+    width: 10vw;
+    padding: 0.3rem;
+    background: #2196F3;
+    color: white;
+    font-size: 1rem;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+}
+form.search button {
+    width: 6vw;
+    background: #2196F3;
+    color: white;
+}
+  
+form.search button:hover {
+    background: #0b7dda;
+}
+  
+  /* Clear floats */
+.clear {
+    clear: both;
+}
+
+.create{
+    float: right;
+    width: 15vw;
+}
+form.create button {
+    background: #2196F3;
+    color: white;
+}
+form.create button:hover {
+    background: #0b7dda;
+}
+.top{
+      display: inline;
+}
+
+table td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+th{
+    font-size: 1.5rem;
+}
+th.col{
+    width: 20%
+}
+th.colSmall{
+    width: 7%
+}
+.edit, .delete{
+    display:inline;
+}
+a{
+    color: white;
+    text-decoration: none;
+    margin: 5px 5px;
+    width: 10vw;
+    padding: 0.3rem;
+    font-size: 1rem;
+    border: 1px solid grey;
+    cursor: pointer;
+    display: inline-block;
+}
+.edit a  {
+    background: #02dd5d;
+
+}
+.edit a:hover {
+    background: #54ad01;
+}    
+
+.delete a {
+    background: #e75936;
+}
+.delete a:hover {
+    background: #f51e02;
+}

@@ -1,0 +1,24 @@
+.container{
+    width: 80%;
+    margin: auto;
+}
+h1{
+    text-align: center;
+}
+table td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.buttons{
+    display: inline;
+}
+th.col{
+    width: 20%
+}
+th.colSmall{
+    width: 10%
+}  
