@@ -153,42 +153,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <div class="container">
+<h1>Create a new record</h1>
+<p>* Required fields</p>
 <form method="POST">
 	
     <div class="flex">
 	<p class="flex-child">
         <label for="FirstName">* First Name:</label>
-        <input type="text" id="FirstName" name="FirstName" value="<?php echo htmlspecialchars($post['FirstName']); ?>">
-        <span class="error"><?php echo $FirstNameErr;?></span>
+        <input type="text" class="input-box" name="FirstName" value="<?php echo htmlspecialchars($post['FirstName']); ?>"><br>
+        <span class="error"><?php echo $error['FirstName'];?></span>
         <br><br>
 	</p>
 	<p class="flex-child">
         <label for="LastName">* Last Name:</label>
-        <input type="text" id="LastName" name="LastName" value="<?php echo htmlspecialchars($post['LastName']); ?>">
+        <input type="text" class="input-box" name="LastName" value="<?php echo htmlspecialchars($post['LastName']); ?>"><br>
         <span class="error"><?php echo $error['LastName'];?></span>
         <br><br>
 	</p>
 	<p class="flex-child">
         <label for="CompanyName">Company Name:</label>
-        <input type="text" id="CompanyName" name="CompanyName" value="<?php echo htmlspecialchars($post['CompanyName']); ?>"> 
+        <input type="text" class="input-box" name="CompanyName" value="<?php echo htmlspecialchars($post['CompanyName']); ?>"> 
 	</p>
     </div>
     <div class="flex">
 	<p class="flex-child">
         <label for="Email">* Email:</label>
-        <input type="text" id="Email" name="Email" value="<?php echo htmlspecialchars($post['Email']); ?>">
+        <input type="text" class="input-box" name="Email" value="<?php echo htmlspecialchars($post['Email']); ?>"><br>
         <span class="error"><?php echo $error['Email'];?></span>
         <br><br>
 	</p>
     <p class="flex-child">
         <label for="Password">* Password:</label>
-        <input type="password" id="Password" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>">
+        <input type="password" class="input-box" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>"><br>
         <span class="error"><?php echo $error['Password'];?></span>
         <br><br>
     </p>
     <p class="flex-child">
         <label for="Phone">* Phone:</label>
-        <input type="text" id="Phone" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>">
+        <input type="text" class="input-box" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>"><br>
         <span class="error"><?php echo $error['Phone'];?></span>
         <br><br>
 	</p>
@@ -196,27 +198,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<div class="flex">
     <p class="flex-child">
         <label for="Adresse">* Adresse:</label>
-        <input type="text" id="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>">
+        <input type="text" class="input-box" id ="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>"><br>
         <span class="error"><?php echo $error['Adresse'];?></span>
         <br><br>
 	</p>
+    </div>
+    <div class="flex">
     <p class="flex-child">
         <label for="PostalCode">* Postal Code:</label>
-        <input type="text" id="PostalCode" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>">
+        <input type="text" class="input-box" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>"><br>
         <span class="error"><?php echo $error['PostalCode'];?></span>
         <br><br>
     </p>
     <p class="flex-child">
         <label for="City">* City:</label>
-        <input type="text" id="City" name="City" value="<?php echo htmlspecialchars($post['City']); ?>">
+        <input type="text" class="input-box" name="City" value="<?php echo htmlspecialchars($post['City']); ?>"><br>
         <span class="error"><?php echo $error['City'];?></span>
         <br><br>
     </p>
-    </div>
-    <div class="flex">
     <p class="flex-child">
         <label for="Country">* Country:</label>
-        <input type="text" id="Country" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>">
+        <input type="text" class="input-box" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>"><br>
         <span class="error"><?php echo $error['Country'];?></span>
         <br><br>
     </p>
@@ -234,9 +236,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p class="flex-child-columnS">
         <span>*</span>
         <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
-        <label for="user">USER</label>
+        <label for="user">User</label>
         <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
-        <label for="admin"> ADMIN</label><br>
+        <label for="admin"> Admin</label><br>
         <span class="error"><?php echo $error['user'];?></span>
     </p>
 
@@ -244,14 +246,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <p class="flex-child-columnS">
         <span>*</span>
         <input type="checkbox" id="shipping" name="shipping"  <?php if (isset($post['shipping']) && $post['shipping']=="yes") echo "checked";?>  value="yes">
-        <label for="shipping"> shipping</label>
+        <label for="shipping"> Shipping</label>
         <input type="checkbox" id="billing" name="billing" <?php if (isset($post['billing']) && $post['billing']=="yes") echo "checked";?>  value="yes">
-        <label for="billing"> billing</label><br>
+        <label for="billing"> Billing</label><br>
         <span class="error"><?php echo $error['shipping'];?></span>
     </p>
     </div>
-    <input class="button" type="submit" name="submit" value="Save">
-    <a href="display.php">Back</a>
+    <input class="button orange" type="submit" name="submit" value="Save">
+    <a class= "button blue" href="display.php">Back</a>
 </form>
 </div>
 </body>

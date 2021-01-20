@@ -8,7 +8,7 @@
 .flex{
     display:flex;
     flex-wrap:wrap;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 .flex-child{
     flex: auto;
@@ -19,27 +19,35 @@
     width: 20%;
 
 }
-a{
+.button{
     color: white;
-    background-color: #2196F3;
-    text-decoration: none;
+    font-size: 1.2rem;
     width: 10vw;
+    text-decoration: none;
     padding: 0.3rem;
-    font-size: 1rem;
     border: 1px solid grey;
     cursor: pointer;
-    display: inline-block;
-    text-align: center;
 }
-a:hover{
+.blue{
+    background-color: #2196F3;
+}
+.blue:hover{
     background-color: #0b7dda;
 }
-.button{
-    width: 10vw;
-    padding: 0.3rem;
-    background: #2196F3;
-    color: white;
-    font-size: 1rem;
-    border: 1px solid grey;
-    cursor: pointer;
+.orange{
+    background-color: #ee8208;
+}
+.orange:hover{
+    background-color: #f87a04;
+}
+a{
+    display: inline-block;
+    text-align: center;    
+}
+.input-box{
+    padding: 5px;
+    width: 15vw;
+}
+#Adresse{
+    width: 30vw;
 }
