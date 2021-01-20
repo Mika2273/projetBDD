@@ -64,7 +64,7 @@
         
         
         /*  Update customers */
-            $sql = "UPDATE customers SET CustomerId = :CustomerId, CompanyName = :CompanyName, FirstName = :FirstName, LastName = :LastName, Phone = :Phone, Adresse = :Adresse, PostalCode = :PostalCode, City = :City, Country = :Country WHERE Id = :Id";
+        $sql = "UPDATE customers SET CustomerId = :CustomerId, CompanyName = :CompanyName, FirstName = :FirstName, LastName = :LastName, Phone = :Phone, Adresse = :Adresse, PostalCode = :PostalCode, City = :City, Country = :Country WHERE CustomerId = :CustomerId";
             
             $stmt = $pdo->prepare($sql);
             
