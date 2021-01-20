@@ -1,48 +1,8 @@
 <?php
-
-$error = [];
-    
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-     
-    if (empty($post["FirstName"])) {
-        $error["FirstName"] = "First Name is required";
-    }
-    if (empty($post["LastName"])) {
-        $error["LastName"]  = "Last Name is required";
-    }
-    if (empty($post["Email"])) {
-        $error["Email"] = "Email is required";
-    } else if (!filter_var($post["Email"], FILTER_VALIDATE_EMAIL)){
-        $error["Email"] = "Invalid email format";
-    }
-    if (empty($post["Password"])) {
-        $error["Password"] = "Password is required";
-    } 
-    if (empty($post["user"])&& empty($post["admin"])) {
-        $error["user"] = "Role is required";
-    }    
-    if (empty($post["TrueOrFalse"])) {
-        $error["TrueOrFalse"] = "Required field";
-    }
-    if (empty($post["Phone"])) {
-        $error["Phone"] = "Phone is required";
-    } 
-    if (empty($post["Adresse"])) {
-        $error["Adresse"] = "Adresse is required";
-    }
-    if (empty($post["PostalCode"])) {
-        $error["PostalCode"] = "Postal Code is required";
-    } 
-    if (empty($post["City"])) {
-        $error["City"] = "City is required";
-    }
-    if (empty($post["Country"])) {
-        $error["Country"] = "Country is required";
-    } 
-    if (empty($post["shipping"])&& empty($post["billing"])) {
-        $error["shipping"] = "Function is required";
-    }                                                
+    $error = [];
+    include 'verifyError.php';
+
     if (count($error) === 0){
     
         include 'dbconfig.php';
@@ -148,113 +108,110 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>add.php</title>
+	<title>Add</title>
     <link rel="stylesheet" href="css/add.css">
 </head>
 <body>
-<div class="container">
-<h1>Create a new record</h1>
-<p>* Required fields</p>
-<form method="POST">
-	
-    <div class="flex">
-	<p class="flex-child">
-        <label for="FirstName">* First Name:</label>
-        <input type="text" class="input-box" name="FirstName" value="<?php echo htmlspecialchars($post['FirstName']); ?>"><br>
-        <span class="error"><?php echo $error['FirstName'];?></span>
-        <br><br>
-	</p>
-	<p class="flex-child">
-        <label for="LastName">* Last Name:</label>
-        <input type="text" class="input-box" name="LastName" value="<?php echo htmlspecialchars($post['LastName']); ?>"><br>
-        <span class="error"><?php echo $error['LastName'];?></span>
-        <br><br>
-	</p>
-	<p class="flex-child">
-        <label for="CompanyName">Company Name:</label>
-        <input type="text" class="input-box" name="CompanyName" value="<?php echo htmlspecialchars($post['CompanyName']); ?>"> 
-	</p>
+    <div class="container">
+        <h1>Create a new record</h1>
+        <p>* Required fields</p>
+        <form method="POST">
+            <div class="flex">
+                <p class="flex-child">
+                    <label for="FirstName">* First Name:</label>
+                    <input type="text" class="input-box" name="FirstName" value="<?php echo htmlspecialchars($post['FirstName']); ?>"><br>
+                    <span class="error"><?php echo $error['FirstName'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="LastName">* Last Name:</label>
+                    <input type="text" class="input-box" name="LastName" value="<?php echo htmlspecialchars($post['LastName']); ?>"><br>
+                    <span class="error"><?php echo $error['LastName'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="CompanyName">Company Name:</label>
+                    <input type="text" class="input-box" name="CompanyName" value="<?php echo htmlspecialchars($post['CompanyName']); ?>"> 
+                </p>
+            </div>
+            <div class="flex">
+	            <p class="flex-child">
+                    <label for="Email">* Email:</label>
+                    <input type="text" class="input-box" name="Email" value="<?php echo htmlspecialchars($post['Email']); ?>"><br>
+                    <span class="error"><?php echo $error['Email'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="Password">* Password:</label>
+                    <input type="password" class="input-box" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>"><br>
+                    <span class="error"><?php echo $error['Password'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="Phone">* Phone:</label>
+                    <input type="text" class="input-box" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>"><br>
+                    <span class="error"><?php echo $error['Phone'];?></span>
+                    <br><br>
+                </p>
+            </div>
+	        <div class="flex">
+                <p class="flex-child">
+                    <label for="Adresse">* Adresse:</label>
+                    <input type="text" class="input-box" id ="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>"><br>
+                    <span class="error"><?php echo $error['Adresse'];?></span>
+                    <br><br>
+                </p>
+            </div>
+            <div class="flex">
+                <p class="flex-child">
+                    <label for="PostalCode">* Postal Code:</label>
+                    <input type="text" class="input-box" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>"><br>
+                    <span class="error"><?php echo $error['PostalCode'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="City">* City:</label>
+                    <input type="text" class="input-box" name="City" value="<?php echo htmlspecialchars($post['City']); ?>"><br>
+                    <span class="error"><?php echo $error['City'];?></span>
+                    <br><br>
+                </p>
+                <p class="flex-child">
+                    <label for="Country">* Country:</label>
+                    <input type="text" class="input-box" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>"><br>
+                    <span class="error"><?php echo $error['Country'];?></span>
+                    <br><br>
+                </p>
+            </div>
+            <div class="flex">
+                <p class="flex-child-columnS">
+                    <span>*</span>
+                    <input type="radio" id="true" name="TrueOrFalse"  <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="true") echo "checked";?> value="true">
+                    <label for="true">True</label>
+                    <input type="radio" id="false" name="TrueOrFalse" <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="false") echo "checked";?> value="false">
+                    <label for="false">False</label><br>
+                    <span class="error"><?php echo $error['TrueOrFalse'];?></span>
+                    <br><br>
+                </p>	
+                <p class="flex-child-columnS">
+                    <span>*</span>
+                    <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
+                    <label for="user">User</label>
+                    <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
+                    <label for="admin"> Admin</label><br>
+                    <span class="error"><?php echo $error['user'];?></span>
+                </p>
+                <p class="flex-child-columnS">
+                    <span>*</span>
+                    <input type="checkbox" id="shipping" name="shipping"  <?php if (isset($post['shipping']) && $post['shipping']=="yes") echo "checked";?>  value="yes">
+                    <label for="shipping"> Shipping</label>
+                    <input type="checkbox" id="billing" name="billing" <?php if (isset($post['billing']) && $post['billing']=="yes") echo "checked";?>  value="yes">
+                    <label for="billing"> Billing</label><br>
+                    <span class="error"><?php echo $error['shipping'];?></span>
+                </p>
+            </div>
+            <input class="button orange" type="submit" name="submit" value="Save">
+            <a class= "button blue" href="display.php">Back</a>
+        </form>
     </div>
-    <div class="flex">
-	<p class="flex-child">
-        <label for="Email">* Email:</label>
-        <input type="text" class="input-box" name="Email" value="<?php echo htmlspecialchars($post['Email']); ?>"><br>
-        <span class="error"><?php echo $error['Email'];?></span>
-        <br><br>
-	</p>
-    <p class="flex-child">
-        <label for="Password">* Password:</label>
-        <input type="password" class="input-box" name="Password" value="<?php echo htmlspecialchars($post['Password']); ?>"><br>
-        <span class="error"><?php echo $error['Password'];?></span>
-        <br><br>
-    </p>
-    <p class="flex-child">
-        <label for="Phone">* Phone:</label>
-        <input type="text" class="input-box" name="Phone" value="<?php echo htmlspecialchars($post['Phone']); ?>"><br>
-        <span class="error"><?php echo $error['Phone'];?></span>
-        <br><br>
-	</p>
-    </div>
-	<div class="flex">
-    <p class="flex-child">
-        <label for="Adresse">* Adresse:</label>
-        <input type="text" class="input-box" id ="Adresse" name="Adresse" value="<?php echo htmlspecialchars($post['Adresse']); ?>"><br>
-        <span class="error"><?php echo $error['Adresse'];?></span>
-        <br><br>
-	</p>
-    </div>
-    <div class="flex">
-    <p class="flex-child">
-        <label for="PostalCode">* Postal Code:</label>
-        <input type="text" class="input-box" name="PostalCode" value="<?php echo htmlspecialchars($post['PostalCode']); ?>"><br>
-        <span class="error"><?php echo $error['PostalCode'];?></span>
-        <br><br>
-    </p>
-    <p class="flex-child">
-        <label for="City">* City:</label>
-        <input type="text" class="input-box" name="City" value="<?php echo htmlspecialchars($post['City']); ?>"><br>
-        <span class="error"><?php echo $error['City'];?></span>
-        <br><br>
-    </p>
-    <p class="flex-child">
-        <label for="Country">* Country:</label>
-        <input type="text" class="input-box" name="Country" value="<?php echo htmlspecialchars($post['Country']); ?>"><br>
-        <span class="error"><?php echo $error['Country'];?></span>
-        <br><br>
-    </p>
-    </div>
-    <div class="flex">
-    <p class="flex-child-columnS">
-        <span>*</span>
-        <input type="radio" id="true" name="TrueOrFalse"  <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="true") echo "checked";?> value="true">
-        <label for="true">True</label>
-        <input type="radio" id="false" name="TrueOrFalse" <?php if (isset($post['TrueOrFalse']) && $post['TrueOrFalse']=="false") echo "checked";?> value="false">
-	    <label for="false">False</label><br>
-        <span class="error"><?php echo $error['TrueOrFalse'];?></span>
-  <br><br>
-    </p>	
-    <p class="flex-child-columnS">
-        <span>*</span>
-        <input type="checkbox" id="user" name="user"  <?php if (isset($post['user']) && $post['user']=="yes") echo "checked";?>  value="yes">
-        <label for="user">User</label>
-        <input type="checkbox" id="admin" name="admin" <?php if (isset($post['admin']) && $post['admin']=="yes") echo "checked";?>  value="yes">
-        <label for="admin"> Admin</label><br>
-        <span class="error"><?php echo $error['user'];?></span>
-    </p>
-
-    
-    <p class="flex-child-columnS">
-        <span>*</span>
-        <input type="checkbox" id="shipping" name="shipping"  <?php if (isset($post['shipping']) && $post['shipping']=="yes") echo "checked";?>  value="yes">
-        <label for="shipping"> Shipping</label>
-        <input type="checkbox" id="billing" name="billing" <?php if (isset($post['billing']) && $post['billing']=="yes") echo "checked";?>  value="yes">
-        <label for="billing"> Billing</label><br>
-        <span class="error"><?php echo $error['shipping'];?></span>
-    </p>
-    </div>
-    <input class="button orange" type="submit" name="submit" value="Save">
-    <a class= "button blue" href="display.php">Back</a>
-</form>
-</div>
 </body>
 </html>

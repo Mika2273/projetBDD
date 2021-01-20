@@ -33,14 +33,8 @@
             </tr>
 
 <?php
-    try{
-        $pdo = new PDO('sqlite:projetBDD.db');
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
-    } catch(Exception $e) {
-        echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
-        die();
-    }
+    include 'dbconfig.php';
+    
     /* Create a prepared statement */
     $stmt = $pdo -> prepare("SELECT CustomerId, CompanyName, FirstName, LastName from customers");
     
