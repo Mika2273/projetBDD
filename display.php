@@ -33,16 +33,10 @@
             </tr>
 
 <?php
-    try{
-        $pdo = new PDO('sqlite:projetBDD.db');
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
-    } catch(Exception $e) {
-        echo "Impossible d'accéder à la base de données SQLite : ".$e->getMessage();
-        die();
-    }
+    include 'dbconfig.php';
+    
     /* Create a prepared statement */
-    $stmt = $pdo -> prepare("SELECT CustomerId, CompanyName, FirstName, LastName from customers");
+    $stmt = $pdo -> prepare("SELECT Id, CompanyName, FirstName, LastName from customers");
     
     /* execute the query */
     $stmt -> execute();        
@@ -56,15 +50,15 @@
         echo'
         
         <tr>
-            <td>'.$CustomerId.'</td>
+            <td>'.$Id.'</td>
             <td>'.$CompanyName.'</td>
             <td>'.$FirstName.'</td>
             <td>'.$LastName.'</td>
             <td><div class="edit">
-                    <a href="edit.php?id='.$CustomerId.'">EDIT</a>
+                    <a href="edit.php?id='.$Id.'">EDIT</a>
                 </div>
                 <div class="delete">
-                    <a href="delete.php?id='.$CustomerId.'">DELETE</a>
+                    <a href="delete.php?id='.$Id.'">DELETE</a>
                 </div>
             </td>
         </tr>';

@@ -1,3 +1,53 @@
 .error{
     color:red;
 }
+.container{
+    width: 80%;
+    margin: auto;
+}
+.flex{
+    display:flex;
+    flex-wrap:wrap;
+    font-size: 1.2rem;
+}
+.flex-child{
+    flex: auto;
+    width: 33%;
+}
+.flex-child-columnS{
+    flex: auto;
+    width: 20%;
+
+}
+.button{
+    color: white;
+    font-size: 1.2rem;
+    width: 10vw;
+    text-decoration: none;
+    padding: 0.3rem;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+.blue{
+    background-color: #2196F3;
+}
+.blue:hover{
+    background-color: #0b7dda;
+}
+.orange{
+    background-color: #ee8208;
+}
+.orange:hover{
+    background-color: #f87a04;
+}
+a{
+    display: inline-block;
+    text-align: center;    
+}
+.input-box{
+    padding: 5px;
+    width: 15vw;
+}
+#Adresse{
+    width: 30vw;
+}
