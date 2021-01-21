@@ -2,18 +2,19 @@
     $id = $_GET['id'];
     include 'dbconfig.php';
     
-    $stmt = $pdo -> prepare("SELECT Email, Password, TrueOrFalse from users WHERE Id = $id");
+    $stmt = $pdo -> prepare("SELECT Id, CustomerId, CompanyName, FirstName, LastName, Phone, Adresse, PostalCode,City, Country from customers WHERE Id = $id");
+    $stmt -> execute();        
+    $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);  
+    $id = $c_f_id =$customer[0]['Id'];
+    $costomer_id = $customer[0]['CustomerId'];
+
+    $stmt = $pdo -> prepare("SELECT Email, Password, TrueOrFalse from users WHERE Id = $costomer_id");
     $stmt -> execute();        
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    $stmt = $pdo -> prepare("SELECT RoleId from user_roles WHERE UserId = $id");
+    $stmt = $pdo -> prepare("SELECT RoleId from user_roles WHERE UserId = $costomer_id");
     $stmt -> execute();        
     $user_roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    $stmt = $pdo -> prepare("SELECT Id, CompanyName, FirstName, LastName, Phone, Adresse, PostalCode,City, Country from customers WHERE CustomerId = $id");
-    $stmt -> execute();        
-    $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);  
-    $id = $customer[0]['Id'];
 
     $stmt = $pdo -> prepare("SELECT FunctionId from customer_functions WHERE AdresseId = $id");
     $stmt -> execute();        
@@ -22,86 +23,113 @@
     $error = [];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         include 'verifyError.php';
-        
+    
         if (count($error) === 0){
+      
         /*  Update users */
             $sql = "UPDATE users SET Email = :Email, Password = :Password, TrueOrFalse = :TrueOrFalse WHERE Id = :Id";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(['Id' => $id,'Email' => $post["Email"], 'Password' => $post["Password"], 'TrueOrFalse' => $post["TrueOrFalse"]]);
+            $stmt->execute(['Id' => $costomer_id,'Email' => $post["Email"], 'Password' => $post["Password"], 'TrueOrFalse' => $post["TrueOrFalse"]]);
             
         /*  Update user_roles */
-            if (isset($post['user']) && $post['user']=="yes"){
-    
-                $stmt = $pdo -> prepare("SELECT Id FROM users WHERE Id =$id");
-                $stmt -> execute();  
+            $stmt = $pdo -> prepare("SELECT Id, UserId, RoleId FROM user_roles WHERE UserId =$costomer_id");
+            $stmt -> execute();  
+            $results= $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ((isset($post['user']) && $post['user']=="yes")
+             && (isset($post['admin']) && $post['admin']=="yes")){
         
-                $result= $stmt->fetch(PDO::FETCH_OBJ);
-                foreach($result as $key => $value){
-                    $UserId = $value;
+                $role_id = 1;
+                $counter = 0;
+                foreach($results as $key => $value){
+                    $id = $value['Id'];
+                    $UserId = $value['UserId'];
+                    $sql = "UPDATE user_roles SET UserId = :UserId, RoleId = :RoleId WHERE Id = :Id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['Id' => $id, 'UserId' => $UserId, 'RoleId' => $role_id]);
+                    $role_id ++;
+                    $counter ++;
                 }
+                if ($counter == 1){
+                    $sql = "INSERT INTO user_roles (UserId, RoleId)
+                    VALUES(:UserId, :RoleId)";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['UserId' => $UserId, 'RoleId' => 2]);
+                }      
     
-                $sql = "UPDATE user_roles SET UserId = :UserId, RoleId = :RoleId WHERE UserId = :Id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute(['Id' => $id, 'UserId' => $UserId, 'RoleId' => 1]);
-    
-            }
-    
-            if (isset($post['admin']) && $post['admin']=="yes"){
-    
-                $stmt = $pdo -> prepare("SELECT Id FROM users WHERE Id =$id");
-                $stmt -> execute();  
-        
-                $result= $stmt->fetch(PDO::FETCH_OBJ);
-                foreach($result as $key => $value){
-                    $UserId = $value;
+            }else if (isset($post['user']) && $post['user']=="yes"){
+                $role_id = 1;
+                foreach($results as $key => $value){
+                    $id = $value['Id'];
+                    $UserId = $value['UserId'];
+                    $sql = "UPDATE user_roles SET UserId = :UserId, RoleId = :RoleId WHERE Id = :Id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['Id' => $id, 'UserId' => $UserId, 'RoleId' => $role_id]);
+                }      
+            }else{
+                $role_id = 2;
+                foreach($results as $key => $value){
+                    $id = $value['Id'];
+                    $UserId = $value['UserId'];
+                    $sql = "UPDATE user_roles SET UserId = :UserId, RoleId = :RoleId WHERE Id = :Id";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute(['Id' => $id, 'UserId' => $UserId, 'RoleId' => $role_id]);
                 }
-    
-                $sql = "UPDATE user_roles SET UserId = :UserId, RoleId = :RoleId WHERE UserId = :Id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute(['Id' => $id, 'UserId' => $UserId, 'RoleId' => 2]);
-    
-            }
-        
+            }        
         
         /*  Update customers */
         $sql = "UPDATE customers SET CustomerId = :CustomerId, CompanyName = :CompanyName, FirstName = :FirstName, LastName = :LastName, Phone = :Phone, Adresse = :Adresse, PostalCode = :PostalCode, City = :City, Country = :Country WHERE CustomerId = :CustomerId";
             
             $stmt = $pdo->prepare($sql);
             
-            $stmt->execute(['CustomerId' => $id,'CompanyName' => $post["CompanyName"], 'FirstName' => $post["FirstName"], 'LastName' => $post["LastName"], 'Phone' => $post["Phone"], 'Adresse' => $post["Adresse"], 'PostalCode' => $post["PostalCode"], 'City' => $post["City"], 'Country' => $post["Country"]]);
+            $stmt->execute(['CustomerId' => $costomer_id,'CompanyName' => $post["CompanyName"], 'FirstName' => $post["FirstName"], 'LastName' => $post["LastName"], 'Phone' => $post["Phone"], 'Adresse' => $post["Adresse"], 'PostalCode' => $post["PostalCode"], 'City' => $post["City"], 'Country' => $post["Country"]]);
         
         /*  Update customer_functions */
-            if (isset($post['shipping']) && $post['shipping']=="yes"){
-    
-                $stmt = $pdo -> prepare("SELECT Id FROM customers WHERE CustomerId = $id");
-                $stmt -> execute();  
+        $stmt = $pdo -> prepare("SELECT Id, AdresseId, FunctionId FROM customer_functions WHERE AdresseId =$c_f_id");
+        $stmt -> execute();  
+        $results= $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-                $result= $stmt->fetch(PDO::FETCH_OBJ);
-                foreach($result as $key => $value){
-                    $AdresseId = $value;
-                }
-    
-                $sql = "UPDATE customer_functions SET AdresseId = :AdresseId, FunctionId = :FunctionId WHERE AdresseId = :AdresseId";
+        if ((isset($post['shipping']) && $post['shipping']=="yes")
+         && (isset($post['billing']) && $post['billing']=="yes")){
+
+            $function_id = 1;
+            $counter = 0;
+            foreach($results as $key => $value){
+                $id = $value['Id'];
+                $AdresseId = $value['AdresseId'];
+                $sql = "UPDATE customer_functions SET AdresseId = :AdresseId, FunctionId = :FunctionId WHERE Id = :Id";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute(['AdresseId' => $AdresseId, 'FunctionId' => 1]);
-    
+                $stmt->execute(['Id' => $id, 'AdresseId' => $AdresseId, 'FunctionId' => $function_id]);
+                $function_id ++;
+                $counter ++;
             }
-    
-            if (isset($post['billing']) && $post['billing']=="yes"){
-    
-                $stmt = $pdo -> prepare("SELECT Id FROM customers WHERE CustomerId = $id");
-                $stmt -> execute();  
-        
-                $result= $stmt->fetch(PDO::FETCH_OBJ);
-                foreach($result as $key => $value){
-                    $AdresseId = $value;
-                }
-    
-                $sql = "UPDATE customer_functions SET AdresseId = :AdresseId, FunctionId = :FunctionId WHERE AdresseId = :AdresseId";
+            if ($counter == 1){
+                $sql = "INSERT INTO customer_functions (AdresseId, FunctionId)
+                VALUES(:AdresseId, :FunctionId)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute(['AdresseId' => $AdresseId, 'FunctionId' => 2]);
-            } 
-        
+            }            
+
+        }else if (isset($post['shipping']) && $post['shipping']=="yes"){
+            
+            $function_id = 1;
+            foreach($results as $key => $value){
+                $id = $value['Id'];
+                $AdresseId = $value['AdresseId'];
+                $sql = "UPDATE customer_functions SET AdresseId = :AdresseId, FunctionId = :FunctionId WHERE Id = :Id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(['Id' => $id, 'AdresseId' => $AdresseId, 'FunctionId' => $function_id]);
+            }      
+        }else{
+            $function_id = 2;
+            foreach($results as $key => $value){
+                $id = $value['Id'];
+                $AdresseId = $value['AdresseId'];
+                $sql = "UPDATE customer_functions SET AdresseId = :AdresseId, FunctionId = :FunctionId WHERE Id = :Id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute(['Id' => $id, 'AdresseId' => $AdresseId, 'FunctionId' => $function_id]);
+            }
+        }        
             header('Location: /display.php'); 
             exit();
         }    
