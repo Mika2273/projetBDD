@@ -52,14 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     
     /*  Insert new row to customers */
-        $stmt = $pdo -> prepare("SELECT MAX(CustomerId) FROM customers");
+        $stmt = $pdo -> prepare("SELECT MAX(Id) FROM users");
         $stmt -> execute();  
 
         $result= $stmt->fetch(PDO::FETCH_OBJ);
         foreach($result as $key => $value){
             $CustomerId = $value;
         }
-        $CustomerId ++;
     
         $sql = "INSERT INTO customers (CustomerId, CompanyName,FirstName,LastName,Phone, Adresse, PostalCode,City,Country)
         VALUES(:CustomerId, :CompanyName, :FirstName, :LastName, :Phone, :Adresse, :PostalCode, :City, :Country)";
